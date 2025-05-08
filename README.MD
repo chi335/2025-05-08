@@ -37,3 +37,39 @@ React에서는 사용자 인터페이스에서 발생하는 이벤트에 대해 
 | `this` 바인딩 필요 여부 | 필요한 경우 있음 (`function` 사용 시)          | 함수형 컴포넌트에서는 바인딩 필요 없음          |
 
  🔎 React는 브라우저의 이벤트를 `SyntheticEvent`로 래핑하여 성능 최적화 및 일관된 동작을 제공합니다.
+
+## 🧠 DOM Event vs React Event: 이벤트 객체(Event Object)
+
+React는 브라우저의 기본 이벤트 객체를 `SyntheticEvent`라는 래퍼 객체로 감싸서 제공합니다. 이는 다양한 브라우저 간의 차이를 줄이고 성능을 최적화하기 위한 설계입니다.
+
+---
+
+### 📋 이벤트 객체 비교
+
+| 비교 항목             | DOM 이벤트 객체                                | React 이벤트 객체 (SyntheticEvent)               |
+|------------------------|--------------------------------------------------|--------------------------------------------------|
+| 이벤트 객체 종류       | `Event`, `MouseEvent`, `KeyboardEvent` 등     | `SyntheticEvent`                                 |
+| 접근 가능한 속성       | `event.target`, `event.clientX` 등             | `event.target`, `event.nativeEvent` 등           |
+| 이벤트 객체의 수명     | 이벤트 종료 후에도 **지속됨**                  | React가 이벤트를 처리한 후 **자동으로 풀(pool)** 처리됨 |
+
+> ℹ️ **SyntheticEvent**는 이벤트 핸들러가 실행된 이후에는 객체가 재사용을 위해 초기화되므로, 비동기 작업에서 이벤트 속성에 접근해야 할 경우 `event.persist()`를 호출해 수명을 유지해야 합니다.
+
+## ⚙️ DOM Event vs React Event
+
+React는 브라우저의 기본 이벤트 시스템을 추상화하여 일관된 방식으로 이벤트를 처리할 수 있도록 `SyntheticEvent`를 제공합니다. 이와 함께 이벤트 전파 방식도 약간의 차이가 있습니다.
+
+---
+
+### 📦 이벤트 객체 (Event Object)
+
+| 비교 항목         | DOM 이벤트                                   | React 이벤트 (SyntheticEvent)                                |
+|--------------------|-----------------------------------------------|----------------------------------------------------------------|
+| 이벤트 객체 종류   | `MouseEvent`, `KeyboardEvent`, `FocusEvent` 등 | `SyntheticEvent` (모든 이벤트 타입을 감싸는 래퍼 객체)         |
+| 이벤트 속성        | `event.target`, `event.clientX` 등           | `event.target`, `event.nativeEvent`, `event.currentTarget` 등  |
+| 객체 수명          | 이벤트 후에도 지속                           | **이벤트 풀링**으로 핸들러 실행 후 객체가 초기화됨               |
+
+> ✅ **React의 SyntheticEvent**
+>
+> - 모든 브라우저에서 **일관된 인터페이스**를 제공
+> - 이벤트 **풀링(Event Pooling)** 사용 → 성능 최적화
+> - 비동기 코드에서 이벤트 정보를 유지하려면 `event.persist()`를 사용해야 함
