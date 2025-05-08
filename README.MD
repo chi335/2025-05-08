@@ -35,3 +35,5 @@ React에서는 사용자 인터페이스에서 발생하는 이벤트에 대해 
 | 이벤트 제거 방식      | `removeEventListener` 필요                     | 컴포넌트 언마운트 시 자동으로 제거됨            |
 | 이벤트 네이밍 방식    | 소문자 (`click`, `change`)                    | 카멜케이스 (`onClick`, `onChange`)              |
 | `this` 바인딩 필요 여부 | 필요한 경우 있음 (`function` 사용 시)          | 함수형 컴포넌트에서는 바인딩 필요 없음          |
+
+ 🔎 React는 브라우저의 이벤트를 `SyntheticEvent`로 래핑하여 성능 최적화 및 일관된 동작을 제공합니다.
